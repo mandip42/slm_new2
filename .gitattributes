@@ -1,0 +1,11 @@
+# Normalise line endings so the repository content is identical on every platform.
+# Without this, a checkout on Windows and one on the CI runner differ, which makes
+# diffs and generated-file comparisons noisy.
+* text=auto eol=lf
+
+# Binary assets must never be transformed.
+*.png binary
+*.wav binary
+*.ico binary
+*.woff binary
+*.woff2 binary

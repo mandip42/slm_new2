@@ -1,0 +1,251 @@
+@import 'tailwindcss';
+
+/*
+ * AcousticLab visual language: laboratory instrumentation adapted to a phone.
+ *
+ * Dark by default because that is what a measurement instrument looks like and
+ * what works at night. An outdoor mode raises contrast and weight for direct
+ * sunlight. A light theme is available for printing and bright indoor use.
+ *
+ * All numeric read-outs use tabular figures so digits do not shift width as the
+ * level changes, which is the difference between a readable instrument and a
+ * twitching mess.
+ */
+
+@theme {
+  --color-shell: #05080c;
+  --color-panel: #0c1218;
+  --color-panel-raised: #121b24;
+  --color-panel-sunken: #080d12;
+  --color-line: #1c2732;
+  --color-line-strong: #2b3c4c;
+  --color-ink: #e9f1f8;
+  --color-muted: #93a7ba;
+  --color-faint: #61758a;
+
+  --color-accent: #22d3ee;
+  --color-accent-dim: #0e7490;
+  --color-ok: #34d399;
+  --color-warn: #fbbf24;
+  --color-bad: #f87171;
+  --color-violet: #a78bfa;
+  --color-amber: #f59e0b;
+
+  --font-mono:
+    ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+
+  --spacing-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+:root {
+  color-scheme: dark;
+  --readout-color: var(--color-ink);
+  --panel-border-width: 1px;
+}
+
+html.theme-light {
+  color-scheme: light;
+  --color-shell: #f4f7fa;
+  --color-panel: #ffffff;
+  --color-panel-raised: #f8fafc;
+  --color-panel-sunken: #eef2f6;
+  --color-line: #d8e1ea;
+  --color-line-strong: #b6c5d3;
+  --color-ink: #101a24;
+  --color-muted: #4d6274;
+  --color-faint: #708499;
+  --color-accent: #0e7490;
+  --color-accent-dim: #22d3ee;
+  --color-ok: #047857;
+  --color-warn: #b45309;
+  --color-bad: #b91c1c;
+  --color-violet: #6d28d9;
+  --color-amber: #b45309;
+}
+
+/* Outdoor mode: maximum contrast and heavier strokes for direct sunlight. */
+html.outdoor {
+  --color-ink: #ffffff;
+  --color-muted: #cfdcea;
+  --color-faint: #9fb2c5;
+  --color-line: #34485c;
+  --color-line-strong: #4c6478;
+  --panel-border-width: 2px;
+}
+
+html.outdoor.theme-light {
+  --color-ink: #000000;
+  --color-muted: #1d2b38;
+  --color-faint: #3d4d5d;
+  --color-line: #94a8ba;
+  --color-line-strong: #64798c;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-shell);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+}
+
+/* Numeric read-outs never reflow. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+@layer components {
+  .panel {
+    background: var(--color-panel);
+    border: var(--panel-border-width) solid var(--color-line);
+    border-radius: 0.75rem;
+  }
+
+  .panel-sunken {
+    background: var(--color-panel-sunken);
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+  }
+
+  /* Small uppercase label used throughout the instrument chrome. */
+  .label {
+    font-size: 0.625rem;
+    line-height: 1rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+    font-weight: 600;
+  }
+
+  .label-strong {
+    color: var(--color-muted);
+  }
+
+  .readout {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+  }
+
+  .hairline {
+    border-color: var(--color-line);
+  }
+
+  /* Touch target floor: 44px, per accessibility guidance. */
+  .touch {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+
+  .focus-ring {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+/* Visible focus for keyboard users only. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Canvas elements are drawn imperatively and must not be selectable. */
+canvas {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  display: block;
+}
+
+/* Range inputs styled to look like instrument sliders. */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2.75rem;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  height: 0.25rem;
+  border-radius: 999px;
+  background: var(--color-line-strong);
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: -0.5rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  border: 2px solid var(--color-shell);
+}
+
+input[type='range']::-moz-range-track {
+  height: 0.25rem;
+  border-radius: 999px;
+  background: var(--color-line-strong);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  border: 2px solid var(--color-shell);
+}
+
+/* Recording indicator pulse. */
+@keyframes rec-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.rec-dot {
+  animation: rec-pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rec-dot {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Hide scrollbars on the horizontal chip rows while keeping them scrollable. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .noprint {
+    display: none !important;
+  }
+}
