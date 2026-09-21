@@ -46,6 +46,8 @@ td.n { text-align: right; font-variant-numeric: tabular-nums; }
 .kv dd { margin: 0; }
 figure { margin: 8px 0 0; }
 figcaption { font-size: 11px; color: #6b7b8c; margin-top: 4px; }
+.photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.photos img { width: 100%; height: auto; border: 1px solid #dde4ec; border-radius: 6px; }
 .foot { margin-top: 32px; padding-top: 10px; border-top: 1px solid #d8e0e8; font-size: 11px; color: #6b7b8c; }
 @media print {
   body { padding: 0; font-size: 11px; }
@@ -354,12 +356,50 @@ function warningBanners(session: SessionRecord): string {
   return banners.map((text) => `<div class="banner">${escapeHtml(text)}</div>`).join('');
 }
 
+/**
+ * A photograph prepared for embedding.
+ *
+ * The image is inlined as a data URL because the report is a single self-contained
+ * file: one that referenced blob URLs would show broken images the moment it was
+ * saved, printed or sent to anyone.
+ */
+export interface ReportPhoto {
+  name: string;
+  dataUrl: string;
+  createdAt: number;
+  /** Elapsed measurement time when it was taken, when it was taken during one. */
+  atSeconds: number | null;
+  width: number;
+  height: number;
+}
+
+function photoSection(photos: readonly ReportPhoto[]): string {
+  if (photos.length === 0) return '';
+  const figures = photos
+    .map((photo) => {
+      const when =
+        photo.atSeconds !== null
+          ? `${formatDuration(photo.atSeconds)} into the measurement`
+          : formatDateTime(photo.createdAt);
+      return `<figure>
+<img src="${escapeHtml(photo.dataUrl)}" alt="${escapeHtml(`Measurement position: ${photo.name}`)}">
+<figcaption>${escapeHtml(photo.name)} &middot; ${escapeHtml(when)} &middot; ${photo.width}&times;${photo.height}</figcaption>
+</figure>`;
+    })
+    .join('\n');
+  return `<h2>Measurement position</h2>
+<div class="photos">${figures}</div>
+<p class="sub">Photographs taken with this device's camera at the position stated. They document where the microphone was, which is not the same as documenting what the sound field was.</p>`;
+}
+
 export interface HtmlReportOptions {
   session: SessionRecord;
   series: SessionSeries | null;
+  /** Photographs of the measurement position, already encoded as data URLs. */
+  photos?: readonly ReportPhoto[];
 }
 
-export function buildHtmlReport({ session, series }: HtmlReportOptions): string {
+export function buildHtmlReport({ session, series, photos = [] }: HtmlReportOptions): string {
   const unit = session.summary.unit;
   return `<!doctype html>
 <html lang="en">
@@ -389,6 +429,8 @@ ${session.thirdOctave ? '<h2>One-third-octave spectrum</h2>' + bandChart(session
 ${percentileTable(session)}
 
 ${exposureSection(session)}
+
+${photoSection(photos)}
 
 <h2>Measurement metadata</h2>
 ${metadataSection(session)}

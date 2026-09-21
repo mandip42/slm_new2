@@ -12,7 +12,7 @@
 export const DB_NAME = 'acousticlab';
 
 /** Current schema version. Bump this and append a migration when it changes. */
-export const DB_VERSION = 1;
+export const DB_VERSION = 2;
 
 export const STORES = {
   settings: 'settings',
@@ -21,6 +21,7 @@ export const STORES = {
   sessionSeries: 'sessionSeries',
   validationExperiments: 'validationExperiments',
   recordings: 'recordings',
+  photos: 'photos',
 } as const;
 
 export type StoreName = (typeof STORES)[keyof typeof STORES];
@@ -66,6 +67,17 @@ const MIGRATIONS: Migration[] = [
       }
       if (!db.objectStoreNames.contains(STORES.recordings)) {
         const store = db.createObjectStore(STORES.recordings, { keyPath: 'id' });
+        store.createIndex('createdAt', 'createdAt');
+        store.createIndex('sessionId', 'sessionId');
+      }
+    },
+  },
+  {
+    version: 2,
+    describe: 'Photos of the measurement position, indexed by session',
+    apply(db) {
+      if (!db.objectStoreNames.contains(STORES.photos)) {
+        const store = db.createObjectStore(STORES.photos, { keyPath: 'id' });
         store.createIndex('createdAt', 'createdAt');
         store.createIndex('sessionId', 'sessionId');
       }

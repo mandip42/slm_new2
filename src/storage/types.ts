@@ -346,6 +346,36 @@ export interface RecordingRecord {
 }
 
 // ---------------------------------------------------------------------------
+// Photos
+// ---------------------------------------------------------------------------
+
+/**
+ * A still image of the measurement position.
+ *
+ * A level without a position is hard to interpret a week later: "85 dBA" means
+ * something quite different at the operator's ear than at the machine casing.
+ * A photo records what the written notes usually leave out.
+ */
+export interface PhotoRecord {
+  id: string;
+  schemaVersion: number;
+  /** Null when the photo was taken outside a measurement. */
+  sessionId: string | null;
+  createdAt: number;
+  /** Elapsed measurement time when the photo was taken, or null outside one. */
+  atSeconds: number | null;
+  /** File name, including extension, used when the photo is downloaded. */
+  name: string;
+  mimeType: string;
+  width: number;
+  height: number;
+  sizeBytes: number;
+  /** Which camera took it, as reported by the browser. */
+  facing: 'environment' | 'user' | 'unknown';
+  blob: Blob;
+}
+
+// ---------------------------------------------------------------------------
 // Settings
 // ---------------------------------------------------------------------------
 

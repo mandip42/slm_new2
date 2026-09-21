@@ -18,6 +18,7 @@ import { useAnalysis, useEngineContext, useMetrics } from '@/state/EngineProvide
 import { useMeasurement } from '@/state/MeasurementProvider';
 import { useSettings } from '@/state/SettingsProvider';
 import { BigLevel, selectLevel } from '@/components/meter/BigLevel';
+import { CameraPanel } from '@/components/meter/CameraPanel';
 import { InputGate } from '@/components/meter/InputGate';
 import { MeasurementControls } from '@/components/meter/MeasurementControls';
 import { SecondaryMetrics } from '@/components/meter/SecondaryMetrics';
@@ -116,6 +117,8 @@ export default function MeterPage() {
           <Panel>
             <MeasurementControls />
           </Panel>
+
+          <CameraPanel />
 
           <Panel>
             <PanelHeader

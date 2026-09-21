@@ -59,6 +59,9 @@ screen, without exception.
 - Optional 24-bit WAV recording, never implicit, deletable independently of results
 - Stored recordings screen: give a recording any file name you like and download it
   to the device as a WAV, or hand it to another app through the system share sheet
+- Camera viewfinder on the meter, with stills captured into the measurement: named,
+  downloadable as JPEG and embedded in the printable report, so a level always has
+  a position attached to it
 - Printable HTML report, CSV exports (summary, time series, octave, 1/3 octave,
   distribution) and a lossless JSON export that also carries the raw dBFS values
 

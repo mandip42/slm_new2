@@ -11,7 +11,16 @@
  * or an accidental navigation.
  */
 
-import { STORES, get, getAll, getAllByIndex, put, remove, removeAcross } from './db';
+import {
+  STORES,
+  get,
+  getAll,
+  getAllByIndex,
+  put,
+  remove,
+  removeAcross,
+  type StoreName,
+} from './db';
 import {
   RECORD_SCHEMA_VERSION,
   type SessionRecord,
@@ -41,12 +50,20 @@ export async function listSessions(): Promise<SessionRecord[]> {
 
 export async function deleteSession(id: string): Promise<void> {
   const session = await loadSession(id);
-  const entries: Array<{ store: typeof STORES.sessions | typeof STORES.sessionSeries | typeof STORES.recordings; key: string }> = [
+  const entries: Array<{ store: StoreName; key: string }> = [
     { store: STORES.sessions, key: id },
     { store: STORES.sessionSeries, key: id },
   ];
   if (session?.recordingId) {
     entries.push({ store: STORES.recordings, key: session.recordingId });
+  }
+  // Photos are found by index rather than from the session record: there can be
+  // several, and a photo left behind would occupy storage that nothing can reach.
+  const photos = await getAllByIndex<{ id: string }>(STORES.photos, 'sessionId', id).catch(
+    () => []
+  );
+  for (const photo of photos) {
+    entries.push({ store: STORES.photos, key: photo.id });
   }
   await removeAcross(entries);
 }

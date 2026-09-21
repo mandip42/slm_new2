@@ -3,6 +3,7 @@
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { blobToDataUrl } from '@/lib/blobs';
 import { formatDateTime, formatDuration, formatDurationWords, formatLevel, NO_VALUE } from '@/lib/format';
 import {
   histogramCsv,
@@ -14,6 +15,7 @@ import { buildHtmlReport } from '@/reports/htmlReport';
 import { buildSessionExport } from '@/reports/json';
 import { downloadCsv, downloadJson, exportFilename, openHtmlReport } from '@/reports/download';
 import { loadRecording } from '@/storage/recordingStore';
+import { deletePhoto, listPhotosForSession } from '@/storage/photoStore';
 import {
   deleteSession,
   deleteSessionRecording,
@@ -24,9 +26,10 @@ import {
   renameSession,
   updateSessionNotes,
 } from '@/storage/sessionStore';
-import type { RecordingRecord, SessionRecord, SessionSeries } from '@/storage/types';
+import type { PhotoRecord, RecordingRecord, SessionRecord, SessionSeries } from '@/storage/types';
 import { useMeasurement } from '@/state/MeasurementProvider';
 import { ScreenHeader } from '@/components/layout/ScreenHeader';
+import { PhotoFile } from '@/components/photos/PhotoFile';
 import { RecordingFile } from '@/components/recordings/RecordingFile';
 import {
   Badge,
@@ -215,6 +218,7 @@ function SessionDetail({
     session: SessionRecord | null;
     series: SessionSeries | null;
     recording: RecordingRecord | null;
+    photos: PhotoRecord[];
   } | null>(null);
   const [name, setName] = useState('');
   const [notes, setNotes] = useState('');
@@ -224,6 +228,7 @@ function SessionDetail({
   const session = loaded?.id === id ? loaded.session : null;
   const series = loaded?.id === id ? loaded.series : null;
   const recording = loaded?.id === id ? loaded.recording : null;
+  const photos = loaded?.id === id ? loaded.photos : [];
   const notFound = loaded?.id === id && loaded.session === null;
 
   useEffect(() => {
@@ -232,14 +237,15 @@ function SessionDetail({
       const record = await loadSession(id).catch(() => undefined);
       if (cancelled) return;
       if (!record) {
-        setLoaded({ id, session: null, series: null, recording: null });
+        setLoaded({ id, session: null, series: null, recording: null, photos: [] });
         return;
       }
-      const [seriesRecord, recordingRecord] = await Promise.all([
+      const [seriesRecord, recordingRecord, photoRecords] = await Promise.all([
         loadSessionSeries(id).catch(() => undefined),
         record.recordingId
           ? loadRecording(record.recordingId).catch(() => undefined)
           : Promise.resolve(undefined),
+        listPhotosForSession(id).catch(() => []),
       ]);
       if (cancelled) return;
       setLoaded({
@@ -247,6 +253,7 @@ function SessionDetail({
         session: record,
         series: seriesRecord ?? null,
         recording: recordingRecord ?? null,
+        photos: photoRecords,
       });
       setName(record.name);
       setNotes(record.notes);
@@ -474,10 +481,34 @@ function SessionDetail({
             size="sm"
             variant="accent"
             onClick={() =>
-              openHtmlReport(
-                buildHtmlReport({ session, series }),
-                exportFilename({ subject: session.name, kind: 'report', extension: 'html' })
-              )
+              void (async () => {
+                // Photos are embedded, so they have to be read out of the database
+                // before the document can be built. A photo that cannot be read is
+                // left out rather than failing the whole report.
+                const embedded = await Promise.all(
+                  photos.map(async (photo) => {
+                    const dataUrl = await blobToDataUrl(photo.blob).catch(() => null);
+                    return dataUrl
+                      ? {
+                          name: photo.name,
+                          dataUrl,
+                          createdAt: photo.createdAt,
+                          atSeconds: photo.atSeconds,
+                          width: photo.width,
+                          height: photo.height,
+                        }
+                      : null;
+                  })
+                );
+                openHtmlReport(
+                  buildHtmlReport({
+                    session,
+                    series,
+                    photos: embedded.filter((photo) => photo !== null),
+                  }),
+                  exportFilename({ subject: session.name, kind: 'report', extension: 'html' })
+                );
+              })()
             }
           >
             Printable report
@@ -598,6 +629,48 @@ function SessionDetail({
         </Panel>
       ) : null}
 
+      {photos.length > 0 ? (
+        <Panel>
+          <PanelHeader
+            title={photos.length === 1 ? 'Photo of the position' : 'Photos of the position'}
+            hint="Captured from the meter screen while this measurement was running. Included in the printable report."
+          />
+          <div className="space-y-4">
+            {photos.map((photo) => (
+              <PhotoFile
+                key={photo.id}
+                photo={photo}
+                onRenamed={(updated) =>
+                  setLoaded((current) =>
+                    current && current.id === id
+                      ? {
+                          ...current,
+                          photos: current.photos.map((item) =>
+                            item.id === updated.id ? updated : item
+                          ),
+                        }
+                      : current
+                  )
+                }
+                onDelete={() => {
+                  void deletePhoto(photo.id).then(() => {
+                    setLoaded((current) =>
+                      current && current.id === id
+                        ? {
+                            ...current,
+                            photos: current.photos.filter((item) => item.id !== photo.id),
+                          }
+                        : current
+                    );
+                    setSaved('Photo deleted. The measurement results are unchanged.');
+                  });
+                }}
+              />
+            ))}
+          </div>
+        </Panel>
+      ) : null}
+
       <Panel>
         <PanelHeader title="Danger zone" />
         <Button
@@ -613,7 +686,8 @@ function SessionDetail({
           Delete this measurement permanently
         </Button>
         <p className={cx('mt-2 text-[11px] text-faint')}>
-          Deletes the results, the time series and any audio recording. This cannot be undone.
+          Deletes the results, the time series, any audio recording and any photos. This cannot be
+          undone.
         </p>
       </Panel>
     </div>

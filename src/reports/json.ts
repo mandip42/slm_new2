@@ -122,9 +122,9 @@ export interface BackupExport extends ExportEnvelope {
 /**
  * Complete data backup.
  *
- * Audio recordings are deliberately excluded: they are large binary blobs and
- * JSON is the wrong container for them. Recordings are exported individually as
- * WAV files instead, and the omission is stated in the file.
+ * Audio recordings and photographs are deliberately excluded: they are large
+ * binary blobs and JSON is the wrong container for them. Both are exported
+ * individually as files instead, and the omission is stated in the file.
  */
 export function buildBackupExport(input: {
   profiles: readonly CalibrationProfile[];
@@ -141,7 +141,7 @@ export function buildBackupExport(input: {
       series: seriesToArrays(series),
     })),
     settings: input.settings,
-    note: 'Audio recordings are not included in this backup. Export them individually as WAV files from the session view.',
+    note: 'Audio recordings and photos are not included in this backup. Download them individually from the session view: recordings as WAV, photos as JPEG.',
   };
 }
 

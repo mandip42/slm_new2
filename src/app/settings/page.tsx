@@ -21,6 +21,7 @@ import { listProfiles, importCalibrationExport } from '@/storage/calibrationStor
 import { listSessions, loadSessionSeries } from '@/storage/sessionStore';
 import { listExperiments } from '@/storage/validationStore';
 import { listRecordings, deleteRecording } from '@/storage/recordingStore';
+import { listPhotos, deletePhoto } from '@/storage/photoStore';
 import { invalidateSettingsCache } from '@/storage/settingsStore';
 import { useCalibration } from '@/state/CalibrationProvider';
 import { useSettings } from '@/state/SettingsProvider';
@@ -118,6 +119,16 @@ export default function SettingsPage() {
     setMessage({
       tone: 'good',
       text: `Deleted ${recordings.length} audio recording(s). Measurement results are unchanged.`,
+    });
+  };
+
+  const deletePhotos = async () => {
+    const photos = await listPhotos();
+    for (const photo of photos) await deletePhoto(photo.id);
+    refreshUsage();
+    setMessage({
+      tone: 'good',
+      text: `Deleted ${photos.length} photo(s). Measurement results are unchanged.`,
     });
   };
 
@@ -382,6 +393,7 @@ export default function SettingsPage() {
             ['Calibration profiles', usage ? String(usage.counts.calibrationProfiles) : NO_VALUE],
             ['Validation experiments', usage ? String(usage.counts.validationExperiments) : NO_VALUE],
             ['Audio recordings', usage ? String(usage.counts.recordings) : NO_VALUE],
+            ['Photos', usage ? String(usage.counts.photos) : NO_VALUE],
           ]}
         />
         <div className="mt-3 flex flex-wrap gap-2">
@@ -418,6 +430,9 @@ export default function SettingsPage() {
         <div className="flex flex-wrap gap-2">
           <Button size="sm" variant="ghost" onClick={() => void deleteRecordings()}>
             Delete all audio recordings
+          </Button>
+          <Button size="sm" variant="ghost" onClick={() => void deletePhotos()}>
+            Delete all photos
           </Button>
           <Button size="sm" variant="ghost" onClick={() => void reset()}>
             Reset settings to defaults

@@ -58,6 +58,11 @@ export default function AboutPage() {
             recording indicator is shown whenever it is active.
           </li>
           <li>
+            &bull; The camera is off until you open it on the meter screen, and a photo is only
+            taken when you tap Capture. Photos are stored in the same local database as the
+            measurements, are never uploaded, and are deleted with the measurement they belong to.
+          </li>
+          <li>
             &bull; Sessions, calibration profiles and settings are stored in your browser&rsquo;s local
             database. Clearing site data or using the delete option in settings removes them.
           </li>
@@ -108,6 +113,12 @@ export default function AboutPage() {
             {(BAND_USABLE_NYQUIST_FRACTION * 100).toFixed(0)} % of the sample rate. At 48 kHz that
             excludes the 20 kHz one-third-octave band, which is shown hatched rather than as a low
             level.
+          </Limitation>
+          <Limitation title="A photograph documents the position, not the sound field">
+            A picture of where the phone was standing is far better than a written note, and it is
+            still only geometry. It does not record the reflections, the other sources running at
+            the time or the orientation of the microphone port to the nearest surface, all of which
+            move the measured level by decibels.
           </Limitation>
           <Limitation title="Calibration is not classification">
             Calibrating against a reference improves accuracy at the levels and frequencies you

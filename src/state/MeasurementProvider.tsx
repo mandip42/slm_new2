@@ -65,6 +65,11 @@ interface MeasurementContextValue {
   /** Saved session record after STOP, once persistence completed. */
   savedSession: SessionRecord | null;
   saveError: string | null;
+  /**
+   * Id the current (or just-finished) measurement is saved under, so data captured
+   * alongside it can be attached. Null before the first START of this session.
+   */
+  activeSessionId: string | null;
   recording: boolean;
   recordingSeconds: number;
 
@@ -106,6 +111,13 @@ export function MeasurementProvider({ children }: { children: ReactNode }) {
   const [savedSession, setSavedSession] = useState<SessionRecord | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [recoverable, setRecoverable] = useState<SessionRecord[]>([]);
+  /**
+   * The id the current measurement will be saved under, mirrored into state so
+   * that anything attaching data to the measurement — a photo of the position, for
+   * instance — re-renders when a measurement begins. The ref remains the source
+   * used inside callbacks.
+   */
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
 
   const sessionIdRef = useRef<string | null>(null);
   const startedAtRef = useRef<number>(0);
@@ -225,6 +237,7 @@ export function MeasurementProvider({ children }: { children: ReactNode }) {
     pausesRef.current = [];
     pauseStartedRef.current = null;
     sessionIdRef.current = createId('ses');
+    setActiveSessionId(sessionIdRef.current);
     startedAtRef.current = Date.now();
     setSessionName(defaultSessionName(startedAtRef.current));
     setLastResult(null);
@@ -429,6 +442,10 @@ export function MeasurementProvider({ children }: { children: ReactNode }) {
     setSavedSession(null);
     setSaveError(null);
     setState('idle');
+    // Nothing is attached to the finished measurement from here on: a photo taken
+    // after dismissing the result belongs to no measurement, not to the last one.
+    sessionIdRef.current = null;
+    setActiveSessionId(null);
     history.reset();
     setElapsedSeconds(0);
     setHistoryVersion((v) => v + 1);
@@ -445,6 +462,7 @@ export function MeasurementProvider({ children }: { children: ReactNode }) {
       lastResult,
       savedSession,
       saveError,
+      activeSessionId,
       recording,
       recordingSeconds,
       start,
@@ -467,6 +485,7 @@ export function MeasurementProvider({ children }: { children: ReactNode }) {
       lastResult,
       savedSession,
       saveError,
+      activeSessionId,
       recording,
       recordingSeconds,
       start,

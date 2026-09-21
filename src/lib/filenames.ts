@@ -50,6 +50,14 @@ export function stripWavExtension(name: string): string {
   return name.replace(/\.wav$/i, '');
 }
 
+/** Remove one trailing occurrence of the given extension, case-insensitively. */
+export function stripExtension(name: string, extension: string): string {
+  const suffix = `.${extension.replace(/^\./, '')}`;
+  return name.toLowerCase().endsWith(suffix.toLowerCase())
+    ? name.slice(0, -suffix.length)
+    : name;
+}
+
 /**
  * Make an arbitrary string usable as the name part of a file.
  *
@@ -88,7 +96,22 @@ export function sanitiseBaseName(input: string, fallback = 'recording'): string 
  * that.
  */
 export function wavFilename(input: string, fallback = 'recording'): string {
-  return `${sanitiseBaseName(stripWavExtension(input), fallback)}.${WAV_EXTENSION}`;
+  return filenameWithExtension(input, WAV_EXTENSION, fallback);
+}
+
+/**
+ * The exact file name a download will be written with, for any extension.
+ *
+ * The extension is always appended rather than trusted from the typed text, so a
+ * JPEG cannot end up named `.wav` because the name was pasted from elsewhere.
+ */
+export function filenameWithExtension(
+  input: string,
+  extension: string,
+  fallback = 'file'
+): string {
+  const ext = extension.replace(/^\./, '').toLowerCase();
+  return `${sanitiseBaseName(stripExtension(input, ext), fallback)}.${ext}`;
 }
 
 /** True when the typed name would be written unchanged. */

@@ -243,10 +243,16 @@ The masterplan's rule — never show a value that did not come from a real measu
 
 ## Storage
 
-IndexedDB, schema version 1, six stores: `settings`, `calibrationProfiles`,
-`sessions`, `sessionSeries`, `validationExperiments`, `recordings`. Migrations are an
-ordered list where each entry moves the schema from version n−1 to n; adding a store
-means appending a migration, never editing an old one.
+IndexedDB, schema version 2, seven stores: `settings`, `calibrationProfiles`,
+`sessions`, `sessionSeries`, `validationExperiments`, `recordings`, `photos`.
+Migrations are an ordered list where each entry moves the schema from version n−1 to
+n; adding a store means appending a migration, never editing an old one — version 2
+is exactly that, the `photos` store indexed by `sessionId` and `createdAt`.
+
+Binary data (WAV recordings, JPEG photos) is stored as `Blob`s keyed by their own id
+and referenced from the session, not embedded in it, so the session list stays cheap
+to read and audio or photos can be deleted without touching the measured numbers.
+Deleting a session cascades to both.
 
 Sessions are split: a light record for the list, and a heavy typed-array series
 fetched only when a session is opened. `Float32Array` survives structured clone, so a
