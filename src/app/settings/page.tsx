@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FFT_SIZES } from '@/dsp/fft';
 import { WINDOW_IDS, WINDOW_LABELS, type WindowId } from '@/dsp/window';
@@ -327,7 +328,16 @@ export default function SettingsPage() {
       </Panel>
 
       <Panel>
-        <PanelHeader title="Audio recording" />
+        <PanelHeader
+          title="Audio recording"
+          action={
+            <Link href="/recordings">
+              <Button size="sm" variant="ghost">
+                Stored recordings
+              </Button>
+            </Link>
+          }
+        />
         <Toggle
           label="Allow audio recording"
           description="When enabled, a Record button appears during measurements. Recording never starts by itself."
@@ -347,7 +357,8 @@ export default function SettingsPage() {
             />
             <Banner tone="warn">
               24-bit mono WAV at 48 kHz uses about 8.6 MB per minute. Recordings are stored on this
-              device only and can be deleted independently of the measurement results.
+              device only and can be deleted independently of the measurement results. Name them and
+              download them from the stored recordings screen.
             </Banner>
           </>
         ) : null}

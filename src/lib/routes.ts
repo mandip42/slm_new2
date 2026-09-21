@@ -78,6 +78,13 @@ export const APP_ROUTES: readonly AppRoute[] = [
     description: 'Saved measurements, reports and CSV/JSON export.',
   },
   {
+    href: '/recordings',
+    label: 'Audio recordings',
+    short: 'Audio',
+    group: 'measurement',
+    description: 'Stored WAV recordings: name them and download them to this device.',
+  },
+  {
     href: '/calibration',
     label: 'Calibration',
     short: 'Calibration',

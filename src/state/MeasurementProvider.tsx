@@ -33,6 +33,7 @@ import {
   defaultSessionName,
 } from '@/measurement/sessionBuilder';
 import { createId } from '@/lib/id';
+import { wavFilename } from '@/lib/filenames';
 import { saveRecording } from '@/storage/recordingStore';
 import {
   finaliseRecoveredSession,
@@ -300,7 +301,10 @@ export function MeasurementProvider({ children }: { children: ReactNode }) {
             sessionId: record.id,
             durationSeconds: engine.recordingDurationSeconds,
             sampleRate: snapshot.sampleRate,
-            name: `${record.name}.wav`,
+            // A starting point only: the file name is editable wherever the
+            // recording is shown, because the name worth having is rarely known
+            // while measuring.
+            name: wavFilename(record.name),
           });
           recordingId = saved.id;
         }
@@ -404,7 +408,7 @@ export function MeasurementProvider({ children }: { children: ReactNode }) {
       sessionId: sessionIdRef.current,
       durationSeconds: engine.recordingDurationSeconds,
       sampleRate: status.sampleRate ?? 48000,
-      name: `${sessionNameRef.current}.wav`,
+      name: wavFilename(sessionNameRef.current),
     }).catch(() => {
       setSaveError('The recording could not be saved to local storage.');
     });

@@ -2,7 +2,8 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { formatBytes, formatDateTime, formatDuration, formatDurationWords, formatLevel, NO_VALUE } from '@/lib/format';
+import Link from 'next/link';
+import { formatDateTime, formatDuration, formatDurationWords, formatLevel, NO_VALUE } from '@/lib/format';
 import {
   histogramCsv,
   sessionBandCsv,
@@ -11,13 +12,7 @@ import {
 } from '@/reports/csv';
 import { buildHtmlReport } from '@/reports/htmlReport';
 import { buildSessionExport } from '@/reports/json';
-import {
-  downloadBlob,
-  downloadCsv,
-  downloadJson,
-  exportFilename,
-  openHtmlReport,
-} from '@/reports/download';
+import { downloadCsv, downloadJson, exportFilename, openHtmlReport } from '@/reports/download';
 import { loadRecording } from '@/storage/recordingStore';
 import {
   deleteSession,
@@ -32,6 +27,7 @@ import {
 import type { RecordingRecord, SessionRecord, SessionSeries } from '@/storage/types';
 import { useMeasurement } from '@/state/MeasurementProvider';
 import { ScreenHeader } from '@/components/layout/ScreenHeader';
+import { RecordingFile } from '@/components/recordings/RecordingFile';
 import {
   Badge,
   Banner,
@@ -223,7 +219,6 @@ function SessionDetail({
   const [name, setName] = useState('');
   const [notes, setNotes] = useState('');
   const [saved, setSaved] = useState<string | null>(null);
-  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const loading = loaded?.id !== id;
   const session = loaded?.id === id ? loaded.session : null;
@@ -574,40 +569,32 @@ function SessionDetail({
 
       {recording ? (
         <Panel>
-          <PanelHeader title="Audio recording" />
-          <KeyValue
-            entries={[
-              ['Duration', formatDurationWords(recording.durationSeconds)],
-              ['Format', `${recording.bitDepth}-bit PCM WAV, mono, ${recording.sampleRate} Hz`],
-              ['Size', formatBytes(recording.sizeBytes)],
-              ['Recorded', formatDateTime(recording.createdAt)],
-            ]}
+          <PanelHeader
+            title="Audio recording"
+            action={
+              <Link href="/recordings">
+                <Button size="sm" variant="ghost">
+                  All recordings
+                </Button>
+              </Link>
+            }
           />
-          <div className="mt-2 flex flex-wrap gap-2">
-            <Button size="sm" onClick={() => downloadBlob(recording.blob, recording.name)}>
-              Download WAV
-            </Button>
-            <Button
-              size="sm"
-              variant={confirmDelete ? 'danger' : 'ghost'}
-              onClick={() => {
-                if (confirmDelete) {
-                  void deleteSessionRecording(session.id).then(() => {
-                    clearRecording();
-                    patchSession({ ...session, recordingId: null });
-                    setConfirmDelete(false);
-                    setSaved('Audio recording deleted. The measurement results are unchanged.');
-                    onChanged();
-                  });
-                } else {
-                  setConfirmDelete(true);
-                  setTimeout(() => setConfirmDelete(false), 4000);
-                }
-              }}
-            >
-              {confirmDelete ? 'Tap to confirm' : 'Delete audio only'}
-            </Button>
-          </div>
+          <RecordingFile
+            recording={recording}
+            onRenamed={(updated) =>
+              setLoaded((current) =>
+                current && current.id === id ? { ...current, recording: updated } : current
+              )
+            }
+            onDelete={() => {
+              void deleteSessionRecording(session.id).then(() => {
+                clearRecording();
+                patchSession({ ...session, recordingId: null });
+                setSaved('Audio recording deleted. The measurement results are unchanged.');
+                onChanged();
+              });
+            }}
+          />
         </Panel>
       ) : null}
 

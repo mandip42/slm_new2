@@ -57,6 +57,8 @@ screen, without exception.
 - Start / pause / resume / stop, with paused time excluded from Leq and duration
 - Autosaved every 5 seconds and recoverable after an interruption
 - Optional 24-bit WAV recording, never implicit, deletable independently of results
+- Stored recordings screen: give a recording any file name you like and download it
+  to the device as a WAV, or hand it to another app through the system share sheet
 - Printable HTML report, CSV exports (summary, time series, octave, 1/3 octave,
   distribution) and a lossless JSON export that also carries the raw dBFS values
 

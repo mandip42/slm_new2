@@ -18,6 +18,7 @@ const ROUTES: Array<{ path: string; heading: RegExp; needsMic?: boolean }> = [
   { path: '/statistics', heading: /Statistical acoustics/ },
   { path: '/exposure', heading: /Noise exposure/ },
   { path: '/sessions', heading: /Sessions/ },
+  { path: '/recordings', heading: /Audio recordings/ },
   { path: '/calibration', heading: /Calibration/ },
   { path: '/validation', heading: /XL2 validation lab/ },
   { path: '/diagnostics', heading: /Input diagnostics/ },
