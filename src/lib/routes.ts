@@ -110,14 +110,14 @@ export const APP_ROUTES: readonly AppRoute[] = [
     label: 'About and limitations',
     short: 'About',
     group: 'system',
-    description: 'What AcousticLab is, what it is not, and how it handles your data.',
+    description: 'What Sonoscope is, what it is not, and how it handles your data.',
   },
   {
     href: '/more',
     label: 'All screens',
     short: 'More',
     group: 'primary',
-    description: 'Everything AcousticLab can do.',
+    description: 'Everything Sonoscope can do.',
     hidden: true,
   },
   {

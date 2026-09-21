@@ -6,7 +6,11 @@
  * afterwards.
  */
 
+import { APP_SHORT_NAME } from '@/lib/branding';
 import { filenameTimestamp, slugify } from '@/lib/format';
+
+/** Prefix on every exported file, so exports stay recognisable in a downloads folder. */
+const FILE_PREFIX = APP_SHORT_NAME.toLowerCase();
 
 export function downloadBlob(blob: Blob, filename: string): void {
   if (typeof document === 'undefined') return;
@@ -42,7 +46,7 @@ export function exportFilename(
   parts: { subject: string; kind: string; at?: number; extension: string }
 ): string {
   const stamp = filenameTimestamp(parts.at);
-  return `acousticlab-${slugify(parts.subject)}-${slugify(parts.kind)}-${stamp}.${parts.extension}`;
+  return `${FILE_PREFIX}-${slugify(parts.subject)}-${slugify(parts.kind)}-${stamp}.${parts.extension}`;
 }
 
 /** Open an HTML report in a new tab, falling back to a download when blocked. */

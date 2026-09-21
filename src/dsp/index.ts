@@ -1,5 +1,5 @@
 /**
- * AcousticLab DSP core.
+ * Sonoscope DSP core.
  *
  * Framework-independent: nothing in this directory imports React, Next.js or any
  * browser API. It is consumed by the AudioWorklet, the analysis Web Worker, the

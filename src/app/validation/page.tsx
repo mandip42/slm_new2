@@ -116,7 +116,7 @@ export default function ValidationPage() {
 
       {!calibration.isCalibrated ? (
         <Banner tone="warn" title="Calibrate before validating">
-          A validation compares AcousticLab&rsquo;s calibrated level against the reference. Without a
+          A validation compares Sonoscope&rsquo;s calibrated level against the reference. Without a
           calibration the comparison would just measure the missing offset. Set up a calibration
           first, then come back and characterise it.
         </Banner>
@@ -167,7 +167,7 @@ export default function ValidationPage() {
               />
             </div>
             <p className="mt-2 text-[11px] leading-relaxed text-faint">
-              Error is AcousticLab minus the reference. The mean is bias, which a calibration can
+              Error is Sonoscope minus the reference. The mean is bias, which a calibration can
               remove; the standard deviation is scatter, which it cannot. Both matter.
             </p>
           </>
@@ -417,7 +417,7 @@ function ExperimentDetail({
 
       {!calibrated ? (
         <Banner tone="warn">
-          No calibration is active, so the AcousticLab column would be a dBFS value and the error
+          No calibration is active, so the Sonoscope column would be a dBFS value and the error
           column would be meaningless. Activate a calibration before recording points.
         </Banner>
       ) : null}
@@ -559,7 +559,7 @@ function ExperimentDetail({
               <div className="mt-3">
                 <KeyValue
                   entries={[
-                    ['AcousticLab', `${formatLevel(measured)} dB${weighting}`],
+                    ['Sonoscope', `${formatLevel(measured)} dB${weighting}`],
                     [
                       'Reference',
                       referenceValid ? `${formatLevel(reference)} dB${weighting}` : NO_VALUE,

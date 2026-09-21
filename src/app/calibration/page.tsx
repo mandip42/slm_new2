@@ -255,7 +255,7 @@ export default function CalibrationPage() {
     <div className="space-y-3">
       <ScreenHeader
         title="Calibration"
-        subtitle="Calibrate and validate against your NTi Audio XL2 so AcousticLab can show sound pressure level."
+        subtitle="Calibrate and validate against your NTi Audio XL2 so Sonoscope can show sound pressure level."
       />
 
       {message ? (
@@ -365,7 +365,7 @@ export default function CalibrationPage() {
               </Button>
             }
           >
-            Until a profile exists, every level in AcousticLab is a digital full-scale value (dBFS).
+            Until a profile exists, every level in Sonoscope is a digital full-scale value (dBFS).
             Creating one and running a single-point calibration takes about a minute with the XL2.
           </EmptyState>
         ) : (

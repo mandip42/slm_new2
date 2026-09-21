@@ -28,7 +28,7 @@ export const EXPERIMENT_KINDS: ReadonlyArray<{
     id: 'broadband-level',
     label: 'Experiment 1 - Broadband level agreement',
     purpose:
-      'Compare AcousticLab and the reference across the level range, ideally near 45, 55, 65, 75, 85 and 95 dBA.',
+      'Compare Sonoscope and the reference across the level range, ideally near 45, 55, 65, 75, 85 and 95 dBA.',
     frequencyRelevant: false,
   },
   {
@@ -156,7 +156,7 @@ export function removePoint(experiment: ValidationExperiment, pointId: string): 
   };
 }
 
-/** Signed errors (AcousticLab minus reference) for one experiment. */
+/** Signed errors (Sonoscope minus reference) for one experiment. */
 export function experimentErrors(experiment: ValidationExperiment): number[] {
   return experiment.points
     .filter((p) => Number.isFinite(p.referenceDb) && Number.isFinite(p.measuredDb))

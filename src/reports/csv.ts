@@ -10,6 +10,7 @@
  * still be interpreted.
  */
 
+import { APP_NAME } from '@/lib/branding';
 import { formatDurationWords, isoTimestamp } from '@/lib/format';
 import type {
   CalibrationProfile,
@@ -45,7 +46,7 @@ function num(value: number | null | undefined, decimals = 2): string {
 function sessionHeader(session: SessionRecord, what: string): string {
   const unit = session.summary.unit;
   return (
-    comment(`AcousticLab ${what}`) +
+    comment(`${APP_NAME} ${what}`) +
     comment(`exported_at=${isoTimestamp()}`) +
     comment(`session_id=${session.id}`) +
     comment(`session_name=${session.name}`) +
@@ -230,7 +231,7 @@ export function validationExperimentCsv(experiment: ValidationExperiment): strin
     'description',
     'frequency_hz',
     'reference_db',
-    'acousticlab_db',
+    'sonoscope_db',
     'error_db',
     'weighting',
     'time_weighting',
@@ -255,7 +256,7 @@ export function validationExperimentCsv(experiment: ValidationExperiment): strin
   }
 
   return (
-    comment('AcousticLab XL2 validation experiment') +
+    comment(`${APP_NAME} XL2 validation experiment`) +
     comment(`exported_at=${isoTimestamp()}`) +
     comment(`experiment_id=${experiment.id}`) +
     comment(`name=${experiment.name}`) +
@@ -268,7 +269,7 @@ export function validationExperimentCsv(experiment: ValidationExperiment): strin
     ) +
     comment(`environment=${experiment.setup.environment}`) +
     comment(`setup_notes=${experiment.setup.notes}`) +
-    comment('error_db = acousticlab_db - reference_db') +
+    comment('error_db = sonoscope_db - reference_db') +
     rows(lines)
   );
 }
@@ -276,7 +277,7 @@ export function validationExperimentCsv(experiment: ValidationExperiment): strin
 /** Calibration data export in tabular form (JSON remains the canonical format). */
 export function calibrationCsv(profile: CalibrationProfile): string {
   let out =
-    comment('AcousticLab calibration profile') +
+    comment(`${APP_NAME} calibration profile`) +
     comment(`exported_at=${isoTimestamp()}`) +
     comment(`profile_id=${profile.id}`) +
     comment(`name=${profile.name}`) +

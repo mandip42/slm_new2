@@ -1,6 +1,6 @@
 # XL2 validation protocol
 
-A reproducible experimental protocol for characterising AcousticLab against an
+A reproducible experimental protocol for characterising Sonoscope against an
 NTi Audio XL2. Calibration makes the numbers agree; validation tells you *how well*
 they agree, and that is the difference between a calibrated phone and a characterised
 instrument.
@@ -80,7 +80,7 @@ A complete setup record looks like:
 
 1. Set the source so the XL2 reads approximately 45 dBA.
 2. Let both stabilise for at least 10 seconds.
-3. Capture in AcousticLab (10 s window), read the XL2, record the comparison.
+3. Capture in Sonoscope (10 s window), read the XL2, record the comparison.
 4. Repeat three times without changing anything.
 5. Raise the level by roughly 10 dB and repeat, through 55, 65, 75, 85 and 95 dBA as
    far as is practical and safe.
@@ -177,7 +177,7 @@ Slow.
 slightly larger error because more of its energy sits above 8 kHz where both the
 microphone and the weighting filter are least accurate.
 
-**Cross-check without the reference:** on the same signal, compare AcousticLab's LAeq
+**Cross-check without the reference:** on the same signal, compare Sonoscope's LAeq
 against its own LZeq. The difference is the A-weighted attenuation of that signal's
 spectrum, and it should be consistent between the two instruments even if the
 absolute levels differ.
@@ -236,7 +236,7 @@ changing signals?
 within ±2 dB on maxima is good, since a maximum is a single instant and the two
 instruments will not sample it identically.
 
-**Note:** AcousticLab's Impulse weighting has not been verified against a certified
+**Note:** Sonoscope's Impulse weighting has not been verified against a certified
 impulse reference. Treat step 4's I readings as indicative and record whatever
 disagreement you find.
 
@@ -254,7 +254,7 @@ Requires the XL2 to be configured for octave or one-third-octave analysis.
 
 **Procedure**
 
-1. Set AcousticLab to 1/1 octave and Z band pre-weighting.
+1. Set Sonoscope to 1/1 octave and Z band pre-weighting.
 2. Start a measurement and let it integrate for at least 30 seconds so band Leq is
    stable.
 3. For each octave band from 63 Hz to 8 kHz, record the pair, entering the band
@@ -266,7 +266,7 @@ to 4 kHz, within ±3 dB at 63 Hz and 8 kHz.
 
 **Cross-checks that do not need the reference at all:**
 
-- Sum AcousticLab's band Leq values in the energy domain and compare against its own
+- Sum Sonoscope's band Leq values in the energy domain and compare against its own
   broadband LZeq. The octave screen shows this directly under **Broadband from
   bands**. They should agree within a few tenths of a decibel, less whatever energy
   falls outside the measured bands.
@@ -288,7 +288,7 @@ The validation lab computes, per experiment and across all experiments:
 | Worst absolute error | The worst case you actually observed |
 | 95 % interval | mean ± 1.96 σ, shown once there are at least 3 comparisons |
 
-Error is always **AcousticLab minus reference**, so positive means the phone reads
+Error is always **Sonoscope minus reference**, so positive means the phone reads
 high.
 
 Two plots are drawn: **agreement** (phone against reference with the ideal y = x line
@@ -308,7 +308,7 @@ later is still interpretable.
 
 ## A realistic expectation
 
-With a careful calibration and a controlled setup, a modern phone running AcousticLab
+With a careful calibration and a controlled setup, a modern phone running Sonoscope
 can typically achieve, over 125 Hz – 4 kHz and 50–90 dB SPL:
 
 - mean error within ±1 dB

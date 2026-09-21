@@ -1,6 +1,6 @@
 # Deployment
 
-AcousticLab is a fully client-side application: every screen prerenders to static
+Sonoscope is a fully client-side application: every screen prerenders to static
 HTML, there is no server runtime, no database and no API. Deploying it is therefore
 just hosting static files over HTTPS.
 
@@ -13,14 +13,18 @@ your LAN does not.
 ## 1. Push to GitHub
 
 ```bash
-cd acousticlab
+cd sonoscope
 git init
 git add .
-git commit -m "AcousticLab: calibrated smartphone acoustic measurement tool"
+git commit -m "WWDE NVH Sonoscope: calibrated smartphone acoustic measurement tool"
 git branch -M main
-git remote add origin https://github.com/<you>/acousticlab.git
+git remote add origin https://github.com/mandip42/slm_new2.git
 git push -u origin main
 ```
+
+This repository is already published at
+<https://github.com/mandip42/slm_new2>, so day-to-day work is just
+`git add`, `git commit` and `git push`.
 
 `.gitignore` already excludes `node_modules/`, `.next/`, `out/`, test artefacts and
 the generated static assets (`public/icons/`, `public/worklets/`, `public/sw.js`).
@@ -106,7 +110,7 @@ Next.js adapter. Cloudflare Pages, Netlify and Azure Static Web Apps all support
 Next.js directly.
 
 If you need a plain directory of files, add `output: 'export'` to `next.config.ts`
-and build; `out/` is then self-contained. Everything in AcousticLab is compatible with
+and build; `out/` is then self-contained. Everything in Sonoscope is compatible with
 static export — no route uses server rendering, dynamic parameters or server actions.
 The only thing to check afterwards is that your host applies the two cache headers
 above.
@@ -169,7 +173,7 @@ and it will be available thereafter.
 
 ### Keep the measurement alive
 
-Android suspends the audio engine when the screen locks. AcousticLab requests a screen
+Android suspends the audio engine when the screen locks. Sonoscope requests a screen
 wake lock while measuring (Settings → **Keep the screen awake while measuring**,
 enabled by default) and, if the engine is suspended anyway, stops the clock rather
 than integrating silence and tells you in the status bar. Also disable battery
@@ -214,7 +218,7 @@ ngrok http 3000
 **Microphone permission was denied and the prompt never returns**
 Chrome on Android: tap the icon left of the address bar → **Permissions** →
 **Microphone** → Allow, then reload. For an installed PWA: Android Settings → Apps →
-AcousticLab → Permissions.
+Sonoscope → Permissions.
 
 **"This browser does not support AudioWorklet"**
 Use Chrome or Edge. Check the diagnostics screen for what was detected.

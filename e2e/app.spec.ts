@@ -8,9 +8,9 @@ import {
   watchForErrors,
 } from './helpers';
 
-/** Every route AcousticLab exposes, and what must be on it. */
+/** Every route Sonoscope exposes, and what must be on it. */
 const ROUTES: Array<{ path: string; heading: RegExp; needsMic?: boolean }> = [
-  { path: '/', heading: /START MEASUREMENT|Open the microphone to measure/ },
+  { path: '/', heading: /WWDE NVH Sonoscope/ },
   { path: '/spectrum', heading: /FFT spectrum/ },
   { path: '/octave', heading: /Octave analyser/ },
   { path: '/history', heading: /Level history/ },
@@ -22,7 +22,7 @@ const ROUTES: Array<{ path: string; heading: RegExp; needsMic?: boolean }> = [
   { path: '/validation', heading: /XL2 validation lab/ },
   { path: '/diagnostics', heading: /Input diagnostics/ },
   { path: '/settings', heading: /Settings/ },
-  { path: '/about', heading: /About AcousticLab/ },
+  { path: '/about', heading: /About WWDE NVH Sonoscope/ },
   { path: '/more', heading: /All screens/ },
   { path: '/dev/dsp', heading: /DSP developer lab/ },
 ];
@@ -87,7 +87,7 @@ test.describe('application shell', () => {
       icons: Array<{ sizes: string; purpose?: string }>;
       start_url: string;
     };
-    expect(parsed.name).toContain('AcousticLab');
+    expect(parsed.name).toContain('WWDE NVH Sonoscope');
     expect(parsed.display).toBe('standalone');
     expect(parsed.start_url).toBe('/');
     expect(parsed.icons.some((icon) => icon.sizes === '512x512')).toBe(true);

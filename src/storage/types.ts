@@ -37,7 +37,7 @@ export interface LevelCalibrationPoint {
   at: number;
   /** Level read from the reference instrument, dB SPL. */
   referenceDb: number;
-  /** Level measured by AcousticLab at the same moment, dBFS. */
+  /** Level measured by Sonoscope at the same moment, dBFS. */
   phoneDbfs: number;
   weighting: WeightingId;
   timeWeighting: TimeWeightingId;
@@ -80,7 +80,7 @@ export interface FrequencyCalibrationPoint {
   frequencyHz: number;
   /** Reference instrument level, dB SPL. */
   referenceDb: number;
-  /** AcousticLab level at the same moment, dB SPL (after level calibration). */
+  /** Sonoscope level at the same moment, dB SPL (after level calibration). */
   phoneDb: number;
   /** referenceDb - phoneDb. */
   correctionDb: number;
@@ -297,7 +297,7 @@ export interface ValidationPoint {
   description: string;
   /** Reference instrument reading, dB. */
   referenceDb: number;
-  /** AcousticLab reading, dB (same weighting and time weighting). */
+  /** Sonoscope reading, dB (same weighting and time weighting). */
   measuredDb: number;
   weighting: WeightingId;
   timeWeighting: TimeWeightingId;

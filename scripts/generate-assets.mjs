@@ -124,7 +124,7 @@ function blend(dst, offset, color, alpha) {
 }
 
 /**
- * Draw the AcousticLab mark.
+ * Draw the Sonoscope mark.
  *
  * @param {number} size    pixel size
  * @param {boolean} maskable  full-bleed background and a tighter safe zone
@@ -265,7 +265,7 @@ function buildSvg() {
     return `    <rect x="${(cx - width / 2).toFixed(2)}" y="${(84 - height).toFixed(2)}" width="${width.toFixed(2)}" height="${height.toFixed(2)}" rx="${(width * 0.35).toFixed(2)}" fill="rgb(${r},${g},${b})"/>`;
   }).join('\n');
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="AcousticLab">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="WWDE NVH Sonoscope">
   <rect width="128" height="128" rx="28" fill="#080c12"/>
   <rect x="14" y="14" width="100" height="100" rx="12" fill="#0f1721"/>
 ${bars}

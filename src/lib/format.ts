@@ -121,7 +121,7 @@ export function isoTimestamp(timestamp = Date.now()): string {
 }
 
 /** Filename-safe slug. */
-export function slugify(text: string, fallback = 'acousticlab'): string {
+export function slugify(text: string, fallback = 'sonoscope'): string {
   const slug = text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')

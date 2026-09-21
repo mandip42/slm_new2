@@ -3,7 +3,7 @@
 /**
  * Agreement plots for calibration and validation.
  *
- * `AgreementChart` plots the AcousticLab estimate against the reference reading
+ * `AgreementChart` plots the Sonoscope estimate against the reference reading
  * together with the ideal y = x line, which is the plot that shows at a glance
  * whether a device is linear or merely offset.
  *
@@ -135,7 +135,7 @@ export function AgreementChart({
       ctx.translate(9, area.top + area.height / 2);
       ctx.rotate(-Math.PI / 2);
       ctx.textBaseline = 'top';
-      ctx.fillText(`AcousticLab (${unitLabel})`, 0, 0);
+      ctx.fillText(`Sonoscope (${unitLabel})`, 0, 0);
       ctx.restore();
     },
     [points, padding, unitLabel]
@@ -152,7 +152,7 @@ export function AgreementChart({
           width={size.width}
           height={size.height}
           role="img"
-          aria-label="AcousticLab against reference instrument"
+          aria-label="Sonoscope against reference instrument"
         />
       </div>
       <p className="mt-1 px-1 text-[10px] text-faint">
@@ -166,7 +166,7 @@ export function AgreementChart({
 export interface ResidualPoint {
   /** Independent variable: level or frequency. */
   x: number;
-  /** Signed error, AcousticLab minus reference. */
+  /** Signed error, Sonoscope minus reference. */
   errorDb: number;
 }
 
@@ -308,7 +308,7 @@ export function ResidualChart({
         />
       </div>
       <p className="mt-1 px-1 text-[10px] text-faint">
-        Signed error: AcousticLab minus reference. A sloping trend means the response is not linear
+        Signed error: Sonoscope minus reference. A sloping trend means the response is not linear
         and a constant offset will be wrong away from the calibration level.
       </p>
     </div>

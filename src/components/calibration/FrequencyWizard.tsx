@@ -6,9 +6,9 @@
  * At each frequency the user exposes both instruments to the same stable source
  * and records the pair. The correction is
  *
- *     Correction(f) = Reference(f) - AcousticLab(f)
+ *     Correction(f) = Reference(f) - Sonoscope(f)
  *
- * AcousticLab's own reading is the **calibrated** level, so this wizard requires
+ * Sonoscope's own reading is the **calibrated** level, so this wizard requires
  * a level calibration to exist first: without one, the phone value is a digital
  * level and the difference would be meaningless.
  *
@@ -129,7 +129,7 @@ export function FrequencyWizard({
       <div className="space-y-3">
         <Banner tone="warn" title="A level calibration is needed first">
           The frequency correction is the difference between the reference reading and{' '}
-          <em>AcousticLab&rsquo;s calibrated level</em> at each frequency. Without a level
+          <em>Sonoscope&rsquo;s calibrated level</em> at each frequency. Without a level
           calibration the phone value is a digital full-scale level, so the difference would mix the
           missing offset into every correction point and the curve would be wrong.
         </Banner>
@@ -233,7 +233,7 @@ export function FrequencyWizard({
           <div className="mt-3">
             <KeyValue
               entries={[
-                ['AcousticLab calibrated level', `${formatLevel(phoneSpl)} dB SPL`],
+                ['Sonoscope calibrated level', `${formatLevel(phoneSpl)} dB SPL`],
                 [
                   'Correction at this frequency',
                   referenceValid ? `${formatSigned(reference - phoneSpl, 2)} dB` : '\u2014',
@@ -273,7 +273,7 @@ export function FrequencyWizard({
                 <tr className="border-b border-line text-left">
                   <th className="py-1 font-semibold text-faint">Frequency</th>
                   <th className="py-1 font-semibold text-faint">Reference</th>
-                  <th className="py-1 font-semibold text-faint">AcousticLab</th>
+                  <th className="py-1 font-semibold text-faint">Sonoscope</th>
                   <th className="py-1 text-right font-semibold text-faint">Correction</th>
                   <th className="py-1" />
                 </tr>

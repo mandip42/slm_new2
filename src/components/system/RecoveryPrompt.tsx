@@ -48,7 +48,7 @@ export function RecoveryPrompt() {
           </div>
         }
       >
-        <span className="text-ink">{session.name}</span> was still running when AcousticLab last
+        <span className="text-ink">{session.name}</span> was still running when Sonoscope last
         closed. It was autosaved with {formatDurationWords(session.durationSeconds)} of data
         (LAeq {formatLevel(session.summary.LAeq)} {unit}), started{' '}
         {formatDateTime(session.startedAt)}. It is marked as incomplete everywhere it appears,

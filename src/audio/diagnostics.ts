@@ -1,7 +1,7 @@
 /**
  * Honest reporting of what the browser actually gave us.
  *
- * AcousticLab *requests* a measurement-grade stream (no echo cancellation, no
+ * Sonoscope *requests* a measurement-grade stream (no echo cancellation, no
  * noise suppression, no automatic gain control, mono, 48 kHz). Browsers and
  * Android audio HALs are free to ignore any of that. This module inspects the
  * MediaStreamTrack after the fact and reports the real settings, so the UI can

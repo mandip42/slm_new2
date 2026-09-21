@@ -13,7 +13,7 @@ import path from 'node:path';
 const buildWorkers = Math.max(1, Math.min(4, os.availableParallelism?.() ?? 4));
 
 /**
- * AcousticLab is a fully client-side application: every measurement route is a
+ * Sonoscope is a fully client-side application: every measurement route is a
  * client component and no microphone audio ever leaves the device. That means
  * the whole app prerenders to static HTML and can be hosted on Vercel with no
  * server runtime.

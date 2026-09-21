@@ -1,8 +1,9 @@
 {
-  "name": "acousticlab",
+  "name": "wwde-nvh-sonoscope",
   "version": "1.0.0",
   "private": true,
-  "description": "AcousticLab - a calibrated smartphone acoustic measurement tool (PWA)",
+  "description": "WWDE NVH Sonoscope - a calibrated smartphone acoustic measurement tool (PWA)",
+  "author": "Mandip Goswami <gomandip@amazon.com>",
   "license": "MIT",
   "engines": {
     "node": ">=20.9.0"

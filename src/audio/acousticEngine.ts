@@ -272,7 +272,7 @@ export class AcousticEngine {
 
       if (!context.audioWorklet) {
         throw new AudioInputError(
-          'This browser does not support AudioWorklet, which AcousticLab needs for real-time measurement. Chrome or Edge on Android is recommended.',
+          'This browser does not support AudioWorklet, which Sonoscope needs for real-time measurement. Chrome or Edge on Android is recommended.',
           'worklet-unsupported'
         );
       }

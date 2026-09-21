@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { APP_NAME, APP_SHORT_NAME } from '@/lib/branding';
 
 /**
  * PWA manifest.
@@ -10,8 +11,8 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'AcousticLab - acoustic measurement',
-    short_name: 'AcousticLab',
+    name: `${APP_NAME} - acoustic and NVH measurement`,
+    short_name: APP_SHORT_NAME,
     description:
       'Turn your phone into a calibrated acoustic analyser: sound level meter, FFT and octave analysis, statistics, noise exposure and reference-instrument calibration. All audio is processed locally on your device.',
     start_url: '/',

@@ -40,7 +40,7 @@ export function classifyMediaError(error: unknown): AudioInputError {
     case 'NotAllowedError':
     case 'SecurityError':
       return new AudioInputError(
-        'Microphone permission was denied. AcousticLab cannot measure without microphone access. Grant permission in the browser site settings and try again.',
+        'Microphone permission was denied. Sonoscope cannot measure without microphone access. Grant permission in the browser site settings and try again.',
         'permission-denied',
         error
       );
@@ -157,7 +157,7 @@ export class DeviceInput implements AudioInputSource {
     }
     if (typeof window !== 'undefined' && !window.isSecureContext) {
       throw new AudioInputError(
-        'Microphone access requires a secure context. Open AcousticLab over HTTPS (or on localhost).',
+        'Microphone access requires a secure context. Open Sonoscope over HTTPS (or on localhost).',
         'insecure-context'
       );
     }

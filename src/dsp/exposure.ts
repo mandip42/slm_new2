@@ -1,7 +1,7 @@
 /**
  * Occupational noise exposure indicators.
  *
- * These are educational/informational calculations. AcousticLab is not a
+ * These are educational/informational calculations. Sonoscope is not a
  * certified dosimeter and nothing here is medical or regulatory advice.
  *
  * All assumptions of each scheme are declared in the exported metadata so the
@@ -20,7 +20,7 @@
  *     TWA = criterionLevel + (exchangeRate / log10(2)) * log10(D / 100)
  *
  * Only sound above the threshold level contributes for schemes that define a
- * threshold (OSHA). Because AcousticLab integrates a single LAeq rather than a
+ * threshold (OSHA). Because Sonoscope integrates a single LAeq rather than a
  * per-instant dose, the threshold is applied by ignoring the measurement when
  * the running LAeq is below it; this is stated in `thresholdNote`.
  */
@@ -66,7 +66,7 @@ export const EXPOSURE_SCHEMES: Record<ExposureSchemeId, ExposureScheme> = {
     criterionHours: 8,
     thresholdDb: 80,
     thresholdNote:
-      'Sound below the 80 dBA threshold is excluded. AcousticLab applies the threshold to the running LAeq, not instant by instant.',
+      'Sound below the 80 dBA threshold is excluded. Sonoscope applies the threshold to the running LAeq, not instant by instant.',
     reference: 'OSHA 29 CFR 1910.95 occupational noise exposure',
   },
 };

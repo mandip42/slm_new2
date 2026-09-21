@@ -1103,7 +1103,7 @@ generated signals through the identical engine the microphone uses.
 
 ## What is and is not claimed
 
-AcousticLab implements measurement concepts and filter designs derived from
+Sonoscope implements measurement concepts and filter designs derived from
 IEC 61672-1 (sound level meters), IEC 61260-1 (fractional-octave filters) and
 ISO 266 (preferred frequencies). It has **not** been type tested or certified
 against any of them, and no compliance with IEC 61672 Class 1 or Class 2 is claimed

@@ -257,7 +257,7 @@ export default function ExposurePage() {
 
           <Banner tone="info" title="What these numbers are and are not">
             The dose is computed from the measured LAeq over the elapsed measurement time using the
-            criterion level, exchange rate and threshold shown above. AcousticLab is not a certified
+            criterion level, exchange rate and threshold shown above. Sonoscope is not a certified
             dosimeter, has not been type-approved, and nothing here is medical advice. For decisions
             about hearing protection or regulatory compliance, use appropriate certified
             instrumentation and qualified advice.

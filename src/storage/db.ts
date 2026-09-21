@@ -131,7 +131,7 @@ export function openDatabase(): Promise<IDBDatabase> {
     request.onblocked = () => {
       reject(
         new StorageUnavailableError(
-          'The local database is blocked by another open AcousticLab tab. Close other tabs and reload.'
+          'The local database is blocked by another open Sonoscope tab. Close other tabs and reload.'
         )
       );
     };
@@ -317,7 +317,7 @@ export async function requestPersistentStorage(): Promise<boolean> {
   }
 }
 
-/** Delete every AcousticLab store. */
+/** Delete every Sonoscope store. */
 export async function clearAllData(): Promise<void> {
   for (const store of Object.values(STORES)) {
     await clear(store);

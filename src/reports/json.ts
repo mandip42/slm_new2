@@ -6,6 +6,7 @@
  * re-derived with a corrected calibration later without re-measuring.
  */
 
+import { APP_NAME } from '@/lib/branding';
 import { isoTimestamp } from '@/lib/format';
 import type {
   CalibrationProfile,
@@ -34,7 +35,7 @@ function envelope(kind: string): ExportEnvelope {
     exportVersion: EXPORT_FORMAT_VERSION,
     schemaVersion: DB_VERSION,
     exportedAt: isoTimestamp(),
-    application: 'AcousticLab',
+    application: APP_NAME,
   };
 }
 
@@ -106,7 +107,7 @@ export function buildValidationExport(
     ...envelope(VALIDATION_EXPORT_KIND),
     experiments: [...experiments],
     profiles: [...profiles],
-    note: 'error_db = acousticlab_db - reference_db for every point.',
+    note: 'error_db = sonoscope_db - reference_db for every point.',
   };
 }
 

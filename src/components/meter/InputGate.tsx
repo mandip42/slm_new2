@@ -26,7 +26,7 @@ export function InputGate() {
       <div>
         <h2 className="text-sm font-semibold text-ink">Open the microphone to measure</h2>
         <p className="mt-1 text-xs leading-relaxed text-muted">
-          AcousticLab requests a measurement-oriented audio stream with echo cancellation, noise
+          Sonoscope requests a measurement-oriented audio stream with echo cancellation, noise
           suppression and automatic gain control switched off, mono, at 48 kHz. Browsers are free to
           ignore any of that, so what was actually granted is reported on the diagnostics screen and
           in the status bar.
@@ -59,7 +59,7 @@ export function InputGate() {
 
       <p className="text-[11px] leading-relaxed text-faint">
         A smartphone microphone does not inherently measure calibrated dB SPL. Until you calibrate
-        against a reference instrument, AcousticLab shows digital full-scale levels (dBFS) and says
+        against a reference instrument, Sonoscope shows digital full-scale levels (dBFS) and says
         so on every screen.
       </p>
     </Panel>

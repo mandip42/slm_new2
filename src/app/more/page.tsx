@@ -30,7 +30,7 @@ export default function MorePage() {
 
   return (
     <div className="space-y-3">
-      <ScreenHeader title="All screens" subtitle="Everything AcousticLab can do." />
+      <ScreenHeader title="All screens" subtitle="Everything Sonoscope can do." />
 
       <div className="flex flex-wrap gap-2">
         <Badge tone={status.state === 'running' ? 'good' : 'warn'}>
@@ -72,7 +72,7 @@ export default function MorePage() {
       })}
 
       <p className="px-1 text-[11px] leading-relaxed text-faint">
-        Microphone audio is processed locally on this device and is never uploaded. AcousticLab is a
+        Microphone audio is processed locally on this device and is never uploaded. Sonoscope is a
         calibrated smartphone measurement tool, not an IEC 61672 classified sound level meter.
       </p>
     </div>

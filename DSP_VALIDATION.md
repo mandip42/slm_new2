@@ -7,7 +7,7 @@ production DSP code in this repository. Regenerate it with:
 npm run report:dsp
 ```
 
-Generated 2026-09-20T21:22:02.383Z with Node v22.17.0 on win32/x64.
+Generated 2026-09-20T23:57:07.309Z with Node v22.17.0 on win32/x64.
 
 The same measurements are asserted as automated tests in `src/dsp/__tests__`
 (`npm test`), so a regression fails the build rather than quietly changing a
@@ -16,7 +16,7 @@ generated signals through the identical engine the microphone uses.
 
 ## What is and is not claimed
 
-AcousticLab implements measurement concepts and filter designs derived from
+Sonoscope implements measurement concepts and filter designs derived from
 IEC 61672-1 (sound level meters), IEC 61260-1 (fractional-octave filters) and
 ISO 266 (preferred frequencies). It has **not** been type tested or certified
 against any of them, and no compliance with IEC 61672 Class 1 or Class 2 is claimed
@@ -596,9 +596,9 @@ matters: the figure to watch is the load percentage.
 
 | stage | wall time (ms) | x real time | load (%) |
 | --- | --- | --- | --- |
-| MeterEngine (A/C/Z, Fast/Slow/Impulse, Leq, peaks, stats, clipping) | 51.0 | 196.2 | 0.51 |
-| 1/3-octave filter bank (30 bands, order 6) | 238.8 | 41.9 | 2.39 |
-| FFT spectrum at 15 frames/s, 8192 points, Hann | 96.8 | 103.3 | 0.97 |
+| MeterEngine (A/C/Z, Fast/Slow/Impulse, Leq, peaks, stats, clipping) | 39.1 | 255.7 | 0.39 |
+| 1/3-octave filter bank (30 bands, order 6) | 230.1 | 43.5 | 2.30 |
+| FFT spectrum at 15 frames/s, 8192 points, Hann | 70.1 | 142.6 | 0.70 |
 
 The meter runs in an AudioWorklet on the audio rendering thread; the filter bank and
 the FFT run in a Web Worker on batched blocks, so a heavy analysis frame cannot

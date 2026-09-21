@@ -6,6 +6,12 @@ import { STATISTICS_SAMPLE_RATE_HZ } from '@/dsp/statistics';
 import { WARM_UP_SECONDS } from '@/dsp/engine';
 import { BAND_USABLE_NYQUIST_FRACTION } from '@/dsp/octave';
 import { CLIP_THRESHOLD, NEAR_OVERLOAD_DB } from '@/dsp/clipping';
+import {
+  APP_NAME,
+  APP_TAGLINE,
+  AUTHOR_EMAIL,
+  AUTHOR_NAME,
+} from '@/lib/branding';
 import { useEngineContext } from '@/state/EngineProvider';
 import { ScreenHeader } from '@/components/layout/ScreenHeader';
 import { Badge, Banner, Button, KeyValue, Panel, PanelHeader } from '@/components/ui/primitives';
@@ -15,15 +21,12 @@ export default function AboutPage() {
 
   return (
     <div className="space-y-3">
-      <ScreenHeader
-        title="About AcousticLab"
-        subtitle="A calibrated smartphone acoustic measurement tool."
-      />
+      <ScreenHeader title={`About ${APP_NAME}`} subtitle={APP_TAGLINE} />
 
       <Panel>
         <PanelHeader title="What it is" />
         <p className="text-xs leading-relaxed text-muted">
-          AcousticLab turns a phone into a working acoustic analyser: a sound level meter with correct
+          Sonoscope turns a phone into a working acoustic analyser: a sound level meter with correct
           A, C and Z frequency weighting and Fast, Slow and Impulse time weighting; a real
           one-third-octave filter bank; an FFT analyser; a spectrogram; statistical levels; noise
           exposure indicators; and a calibration and validation workflow built around a reference
@@ -32,7 +35,7 @@ export default function AboutPage() {
       </Panel>
 
       <Banner tone="warn" title="What it is not">
-        AcousticLab is <strong>not</strong> a classified sound level meter. It has not been type
+        Sonoscope is <strong>not</strong> a classified sound level meter. It has not been type
         tested or certified against IEC 61672 Class 1 or Class 2, and no such claim is made anywhere in
         this application. It implements measurement concepts and filter designs derived from the
         relevant standards, and it tells you honestly how far its filters deviate from the ideal, but a
@@ -71,7 +74,7 @@ export default function AboutPage() {
           <Limitation title="A phone microphone does not measure sound pressure by itself">
             It reports digital amplitude. The relationship to sound pressure depends on the
             microphone, the port geometry, the case, the audio front end and the browser. Until you
-            calibrate, AcousticLab shows dBFS and labels it as such on every screen.
+            calibrate, Sonoscope shows dBFS and labels it as such on every screen.
           </Limitation>
           <Limitation title="Limited dynamic range">
             A phone microphone has a noise floor of roughly 30 dBA and typically starts to compress or
@@ -83,12 +86,12 @@ export default function AboutPage() {
             Response is usually reasonable from a few hundred hertz to several kilohertz and much less
             so outside that. Very low frequencies are limited by the microphone and the port; very high
             frequencies by the microphone and by any case. The frequency-response calibration corrects
-            this over the range you measure, and AcousticLab marks bands outside that range rather than
+            this over the range you measure, and Sonoscope marks bands outside that range rather than
             extrapolating.
           </Limitation>
           <Limitation title="Operating system audio processing">
             Android and the browser may apply automatic gain control, noise suppression or echo
-            cancellation. AcousticLab requests all three off and reports what was actually granted, but
+            cancellation. Sonoscope requests all three off and reports what was actually granted, but
             it cannot force them off. Automatic gain control in particular destroys level measurement.
             Check the diagnostics screen.
           </Limitation>
@@ -205,6 +208,31 @@ export default function AboutPage() {
           <Badge tone="neutral">ISO 266 preferred frequencies</Badge>
           <Badge tone="warn">No compliance claimed</Badge>
         </div>
+      </Panel>
+
+      <Panel>
+        <PanelHeader title="Credits" />
+        <KeyValue
+          entries={[
+            ['Application', APP_NAME],
+            ['Built by', AUTHOR_NAME],
+            [
+              'Contact',
+              <a
+                key="contact"
+                href={`mailto:${AUTHOR_EMAIL}`}
+                className="underline underline-offset-2"
+              >
+                {AUTHOR_EMAIL}
+              </a>,
+            ],
+            ['Licence', 'MIT'],
+          ]}
+        />
+        <p className="mt-2 text-[11px] leading-relaxed text-faint">
+          {APP_NAME} was designed and built by {AUTHOR_NAME}. Questions, measurement comparisons and
+          bug reports are welcome at {AUTHOR_EMAIL}.
+        </p>
       </Panel>
     </div>
   );

@@ -1,6 +1,6 @@
 # Calibration guide
 
-How to calibrate AcousticLab against an NTi Audio XL2, and how to know when you have
+How to calibrate Sonoscope against an NTi Audio XL2, and how to know when you have
 done it well enough to trust the result.
 
 ---
@@ -90,7 +90,7 @@ Record the XL2's serial number if you have more than one reference. The profile
 automatically captures the device model, browser, sample rate, input device label,
 and whether device audio processing could be confirmed disabled.
 
-If you later open the profile on a different phone or browser, AcousticLab flags it
+If you later open the profile on a different phone or browser, Sonoscope flags it
 as a device mismatch and tells you exactly what differs. It does not stop you using
 it, because sometimes that is deliberate, but the numbers should not be trusted.
 
@@ -105,8 +105,8 @@ This fixes the offset. It takes about a minute.
 1. Set the XL2 to the same weighting and time weighting shown in the wizard. **Slow**
    is recommended: it averages more, which makes the two instruments easier to match.
 2. Start the source and let it stabilise.
-3. Start the XL2 measuring, and at the same moment tap **Capture** in AcousticLab.
-4. AcousticLab averages over the capture window — 10 seconds by default — in the
+3. Start the XL2 measuring, and at the same moment tap **Capture** in Sonoscope.
+4. Sonoscope averages over the capture window — 10 seconds by default — in the
    energy domain, exactly the way Leq is computed. It is not taking a single
    instantaneous reading.
 5. Read the XL2's level and type it in.
@@ -146,7 +146,7 @@ two microphones.
 
 For each point: capture, type the XL2 reading, tap **Add point**.
 
-AcousticLab fits `SPL = slope · dBFS + intercept` by ordinary least squares and
+Sonoscope fits `SPL = slope · dBFS + intercept` by ordinary least squares and
 reports:
 
 | Figure | What it tells you | What to want |
@@ -164,7 +164,7 @@ non-linearity actually shows up as a slope or a curve rather than scatter.
 
 ### If the slope is not 1
 
-AcousticLab warns you and applies the fitted slope rather than a constant offset. A
+Sonoscope warns you and applies the fitted slope rather than a constant offset. A
 slope of 1.05 means 1 dB of error over a 20 dB span, which is why a constant offset
 would be wrong away from the calibration level.
 
@@ -186,7 +186,7 @@ moved, or a source that drifted during that capture. Remove the point and redo i
 **Calibration → Frequency response → Run**
 
 Requires a level calibration first, and the wizard refuses to start without one: the
-correction is the difference between the reference reading and AcousticLab's
+correction is the difference between the reference reading and Sonoscope's
 *calibrated* level. Without the offset, every correction point would absorb the
 missing offset and the whole curve would be wrong.
 
@@ -203,7 +203,7 @@ wizard ticks them off as you go. Working from 63 Hz to 8 kHz gives a useful corr
 for most phones; the extremes are where phones are worst and where a loudspeaker is
 least likely to give you a clean level.
 
-AcousticLab computes `Correction(f) = Reference(f) − AcousticLab(f)` and interpolates
+Sonoscope computes `Correction(f) = Reference(f) − Sonoscope(f)` and interpolates
 **linearly in log-frequency** between measured points. Outside the measured range it
 holds the correction flat at the nearest measured value and marks the region as
 uncalibrated — it never extrapolates a trend, because extrapolating a rising or
@@ -284,7 +284,7 @@ The four statuses are cumulative:
 
 ## Maintenance
 
-- **Re-check every 90 days.** After that AcousticLab flags the calibration as stale
+- **Re-check every 90 days.** After that Sonoscope flags the calibration as stale
   in the quality report and in the validity indicator. A single-point check against
   the XL2 is enough to confirm nothing has drifted.
 - **Re-calibrate after** a case change, a browser update that alters the audio

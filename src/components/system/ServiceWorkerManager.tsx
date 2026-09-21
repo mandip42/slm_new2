@@ -101,7 +101,7 @@ export function ServiceWorkerManager() {
         style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}
       >
         <p className="text-xs leading-relaxed text-ink">
-          <span className="font-semibold">A new version of AcousticLab is ready.</span>{' '}
+          <span className="font-semibold">A new version of Sonoscope is ready.</span>{' '}
           {measuring
             ? 'A measurement is in progress, so the update is being held back. Stop the measurement to apply it.'
             : 'Reloading takes a couple of seconds.'}
@@ -132,7 +132,7 @@ export function ServiceWorkerManager() {
         className="fixed inset-x-3 bottom-20 z-40 rounded-lg border border-ok/40 bg-ok/10 px-3 py-2 text-xs text-ok"
         style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}
       >
-        AcousticLab is cached and ready to work offline.
+        Sonoscope is cached and ready to work offline.
       </div>
     );
   }

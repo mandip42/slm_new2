@@ -1,11 +1,31 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import {
   gotoClean,
   gotoWithMic,
   openMicrophone,
+  readMainLevel,
   waitForLiveLevel,
   watchForErrors,
 } from './helpers';
+
+/**
+ * Highest level seen over a window long enough to contain a full cycle of the
+ * fake capture device's beep pattern.
+ *
+ * Chrome's fake audio device is a repeating beep, not a steady tone, so a single
+ * instantaneous Fast reading can sit anywhere inside a wide swing. The peak over a
+ * whole cycle is repeatable; one arbitrary sample is not.
+ */
+async function peakLevelOverBeepCycle(page: Page): Promise<number> {
+  const samples: number[] = [];
+  for (let i = 0; i < 14; i++) {
+    const value = await readMainLevel(page);
+    if (value !== null) samples.push(value);
+    await page.waitForTimeout(200);
+  }
+  expect(samples.length, 'the read-out went blank during sampling').toBeGreaterThan(6);
+  return Math.max(...samples);
+}
 
 /**
  * Calibration is the feature that turns a digital level into a sound pressure
@@ -61,10 +81,17 @@ test.describe('calibration', () => {
     await expect(page.getByText(/Uncalibrated: this is a digital/)).toHaveCount(0);
     await expect(page.getByText(/CAL \u2713/)).toBeVisible();
 
-    const calibratedLevel = await waitForLiveLevel(page);
-    // The calibrated reading must be near the reference value we entered, and far
-    // from the raw dBFS value.
-    expect(Math.abs(calibratedLevel - 74.3)).toBeLessThan(8);
+    await waitForLiveLevel(page);
+    const calibratedLevel = await peakLevelOverBeepCycle(page);
+    // The read-out must now be an absolute sound pressure level near the reference
+    // we entered, and far away from the raw digital level it showed before.
+    //
+    // The tolerance is wide on purpose. The calibration was captured from a 3 s
+    // energy average of a pulsed source, and this is the peak of the Fast level of
+    // that same source, so the two legitimately differ by several decibels. The
+    // numerical accuracy of the calibration transform itself is asserted
+    // analytically in the unit tests, where the input is a known steady signal.
+    expect(Math.abs(calibratedLevel - 74.3)).toBeLessThan(15);
     expect(calibratedLevel).toBeGreaterThan(rawLevel + 20);
 
     expect(errors).toEqual([]);

@@ -6,6 +6,7 @@
  * exportable and importable as plain JSON so they survive a lost device.
  */
 
+import { APP_NAME } from '@/lib/branding';
 import { createId } from '@/lib/id';
 import { buildDeviceInfo } from '@/lib/device';
 import type { InputDiagnostics } from '@/audio/diagnostics';
@@ -255,7 +256,7 @@ export function buildCalibrationExport(profiles: readonly CalibrationProfile[]):
     kind: CALIBRATION_EXPORT_KIND,
     exportVersion: CALIBRATION_EXPORT_VERSION,
     exportedAt: new Date().toISOString(),
-    application: 'AcousticLab',
+    application: APP_NAME,
     profiles: profiles.map((p) => structuredCloneSafe(p)),
   };
 }
@@ -278,11 +279,11 @@ export async function importCalibrationExport(data: unknown): Promise<ImportResu
   }
   const payload = data as Partial<CalibrationExport>;
   if (payload.kind !== CALIBRATION_EXPORT_KIND) {
-    throw new Error('This file is not an AcousticLab calibration export.');
+    throw new Error('This file is not an Sonoscope calibration export.');
   }
   if (typeof payload.exportVersion !== 'number' || payload.exportVersion > CALIBRATION_EXPORT_VERSION) {
     throw new Error(
-      `This file was written by a newer version of AcousticLab (format ${String(payload.exportVersion)}).`
+      `This file was written by a newer version of Sonoscope (format ${String(payload.exportVersion)}).`
     );
   }
   if (!Array.isArray(payload.profiles)) {

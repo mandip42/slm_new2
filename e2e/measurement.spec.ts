@@ -78,7 +78,7 @@ test.describe('measurement journey', () => {
     const download = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Summary CSV' }).click();
     const file = await download;
-    expect(file.suggestedFilename()).toMatch(/^acousticlab-.*-summary-.*\.csv$/);
+    expect(file.suggestedFilename()).toMatch(/^sonoscope-.*-summary-.*\.csv$/);
 
     expect(errors).toEqual([]);
   });

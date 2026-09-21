@@ -11,6 +11,7 @@
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { HISTORY_TRACES } from '@/measurement/levelHistory';
+import { APP_NAME, APP_TAGLINE, AUTHOR_CREDIT, AUTHOR_EMAIL } from '@/lib/branding';
 import { formatLevel, NO_VALUE } from '@/lib/format';
 import { useCalibration } from '@/state/CalibrationProvider';
 import { useAnalysis, useEngineContext, useMetrics } from '@/state/EngineProvider';
@@ -49,6 +50,22 @@ export default function MeterPage() {
 
   return (
     <div className="space-y-3">
+      <header className="flex items-start justify-between gap-3 px-1">
+        <div>
+          <h1 className="text-base leading-tight font-semibold tracking-tight text-ink">
+            {APP_NAME}
+          </h1>
+          {!inputLive ? (
+            <p className="mt-0.5 text-[11px] leading-snug text-faint">{APP_TAGLINE}</p>
+          ) : null}
+        </div>
+        <Link href="/about" className="shrink-0">
+          <Button size="sm" variant="ghost">
+            About
+          </Button>
+        </Link>
+      </header>
+
       <InputGate />
 
       {snapshot?.clipping.active ? (
@@ -204,12 +221,19 @@ export default function MeterPage() {
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <Badge tone={calibration.isCalibrated ? 'good' : 'warn'}>{quality.status}</Badge>
             <span className="text-[10px] text-faint">
-              AcousticLab is a calibrated smartphone measurement tool, not an IEC 61672 classified
+              Sonoscope is a calibrated smartphone measurement tool, not an IEC 61672 classified
               sound level meter.
             </span>
           </div>
         </>
       ) : null}
+
+      <footer className="border-t border-line pt-2 text-center text-[10px] leading-relaxed text-faint">
+        {APP_NAME} &middot; {AUTHOR_CREDIT}{' '}
+        <a href={`mailto:${AUTHOR_EMAIL}`} className="underline underline-offset-2">
+          {AUTHOR_EMAIL}
+        </a>
+      </footer>
     </div>
   );
 }

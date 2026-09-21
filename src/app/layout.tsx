@@ -1,20 +1,24 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { APP_NAME, APP_SHORT_NAME, AUTHOR_EMAIL, AUTHOR_NAME } from '@/lib/branding';
 import { AppProviders } from '@/state/AppProviders';
 import { AppShell } from '@/components/layout/AppShell';
 
 export const metadata: Metadata = {
   title: {
-    default: 'AcousticLab',
-    template: '%s | AcousticLab',
+    default: APP_NAME,
+    template: `%s | ${APP_SHORT_NAME}`,
   },
   description:
     'A calibrated smartphone acoustic measurement tool: sound level meter, FFT and octave analysis, statistics and reference-instrument calibration. All processing happens on your device.',
-  applicationName: 'AcousticLab',
+  applicationName: APP_NAME,
+  authors: [{ name: AUTHOR_NAME }],
+  creator: AUTHOR_NAME,
+  publisher: AUTHOR_NAME,
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
-    title: 'AcousticLab',
+    title: APP_SHORT_NAME,
     statusBarStyle: 'black-translucent',
   },
   icons: {
@@ -29,6 +33,7 @@ export const metadata: Metadata = {
   other: {
     // Microphone audio never leaves the device; stated in the document itself.
     'privacy-policy': 'Microphone audio is processed locally on this device and is never uploaded.',
+    author: `${AUTHOR_NAME} <${AUTHOR_EMAIL}>`,
   },
 };
 

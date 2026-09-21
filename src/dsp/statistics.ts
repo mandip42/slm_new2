@@ -23,7 +23,7 @@
 
 export const STATISTICS_SAMPLE_RATE_HZ = 20;
 
-/** Standard exceedance levels reported by AcousticLab. */
+/** Standard exceedance levels reported by Sonoscope. */
 export const PERCENTILE_LEVELS = [1, 5, 10, 50, 90, 95, 99] as const;
 export type PercentileKey = `L${(typeof PERCENTILE_LEVELS)[number]}`;
 

@@ -1,6 +1,7 @@
-# AcousticLab
+# WWDE NVH Sonoscope
 
-A calibrated smartphone acoustic measurement tool. AcousticLab turns an Android
+A calibrated smartphone acoustic measurement tool, built by
+[Mandip Goswami](mailto:gomandip@amazon.com). Sonoscope turns an Android
 phone into a working acoustic analyser: a sound level meter with real A, C and Z
 frequency weighting and Fast, Slow and Impulse time weighting; a genuine
 one-third-octave filter bank; an FFT analyser; a scrolling spectrogram; statistical
@@ -14,7 +15,7 @@ processed locally on your device and is never uploaded.**
 
 ## What it is, and what it is not
 
-AcousticLab implements measurement concepts and filter designs derived from
+Sonoscope implements measurement concepts and filter designs derived from
 IEC 61672-1 (sound level meters), IEC 61260-1 (fractional-octave filters) and
 ISO 266 (preferred frequencies).
 
@@ -96,7 +97,7 @@ screen, without exception.
 
 ```bash
 git clone <your-repository-url>
-cd acousticlab
+cd sonoscope
 npm install
 npm run dev
 ```
@@ -193,8 +194,8 @@ Read these before trusting a number. The application repeats them in
   digital clipping is visible.
 - **Frequency response varies between phones,** and is worst at the extremes. The
   frequency-response calibration corrects it over the range you measure; outside that
-  range AcousticLab holds the correction flat and marks the region as uncalibrated.
-- **Operating system audio processing.** AcousticLab requests automatic gain control,
+  range Sonoscope holds the correction flat and marks the region as uncalibrated.
+- **Operating system audio processing.** Sonoscope requests automatic gain control,
   noise suppression and echo cancellation off, but cannot force them off. Automatic
   gain control in particular destroys level measurement. Check diagnostics.
 - **The digital weighting filters are not exact.** See `DSP_VALIDATION.md` §1 for the
@@ -207,7 +208,7 @@ Read these before trusting a number. The application repeats them in
   a real sound field measure different things; this is usually the dominant error in a
   phone-versus-reference comparison, not the phone.
 - **The browser can stop the measurement.** A screen lock or backgrounded tab
-  suspends the audio engine on Android. AcousticLab detects this, stops the clock
+  suspends the audio engine on Android. Sonoscope detects this, stops the clock
   rather than integrating silence, and says so.
 - **Impulse time weighting is unverified** against a certified impulse reference.
 

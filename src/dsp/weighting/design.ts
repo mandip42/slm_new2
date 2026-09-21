@@ -25,7 +25,7 @@
  *     4 kHz  -0.04 dB      10 kHz  -1.22 dB
  *     8 kHz  -0.54 dB      12.5 kHz -2.67 dB      16 kHz  -6.43 dB
  *
- * That is not good enough to call the filter a correct A weighting. AcousticLab
+ * That is not good enough to call the filter a correct A weighting. Sonoscope
  * therefore places the f4 double pole at the frequency that minimises the worst
  * deviation from the exact analog response over 20 Hz .. min(12.5 kHz, 0.28*fs),
  * solved numerically at design time for the active sample rate. The residual

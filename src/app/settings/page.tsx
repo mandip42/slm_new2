@@ -75,7 +75,7 @@ export default function SettingsPage() {
           sessions: withSeries,
           settings: settings as unknown as Record<string, unknown>,
         }),
-        exportFilename({ subject: 'acousticlab', kind: 'backup', extension: 'json' })
+        exportFilename({ subject: 'sonoscope', kind: 'backup', extension: 'json' })
       );
       setMessage({
         tone: 'good',
@@ -130,7 +130,7 @@ export default function SettingsPage() {
       await refresh();
       refreshUsage();
       setConfirmWipe(0);
-      setMessage({ tone: 'good', text: 'All local AcousticLab data has been deleted.' });
+      setMessage({ tone: 'good', text: 'All local Sonoscope data has been deleted.' });
     } catch (error) {
       setMessage({
         tone: 'bad',
