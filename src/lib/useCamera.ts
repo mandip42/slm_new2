@@ -21,6 +21,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
+import { drawMeasurementStamp, type MeasurementStamp } from './imageStamp';
 
 export type CameraFacing = 'environment' | 'user';
 
@@ -46,13 +47,14 @@ export interface CapturedFrame {
 }
 
 /**
- * Encode the current video frame as a JPEG.
+ * Encode the current video frame as a JPEG, optionally with the read-out burned in.
  *
  * Returns null when no frame has arrived yet, which is the normal state for the
  * first moment after the camera opens.
  */
 export async function captureVideoFrame(
-  video: HTMLVideoElement
+  video: HTMLVideoElement,
+  stamp?: MeasurementStamp | null
 ): Promise<CapturedFrame | null> {
   if (video.videoWidth === 0 || video.videoHeight === 0) return null;
 
@@ -62,6 +64,9 @@ export async function captureVideoFrame(
   const context = canvas.getContext('2d');
   if (!context) return null;
   context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  if (stamp) {
+    drawMeasurementStamp(context, { width: canvas.width, height: canvas.height }, stamp);
+  }
 
   const blob = await new Promise<Blob | null>((resolve) => {
     canvas.toBlob((result) => resolve(result), 'image/jpeg', JPEG_QUALITY);
